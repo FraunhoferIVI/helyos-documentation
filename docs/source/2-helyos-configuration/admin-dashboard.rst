@@ -70,7 +70,7 @@ Agent auto registration
 In this view, the developer will define the missions available for the software application. A mission represents a single task or a group of tasks. These tasks can be related to the calculation of a path, the store of data, handling of map information, or a combination of everything. 
 
 .. note:: 
-Each registered mission can be seen as a new feature in the final application.
+    Each registered mission can be seen as a new feature in the final application.
 
 .. figure:: ./img/define-missions-view.png
     :align: center

@@ -45,7 +45,7 @@ In helyOS framework, the assignment is originated from a microservice [*]. That 
     :align: center
     :width: 700
 
-     Data format: microservice response to create assignments.
+    Data format: microservice response to create assignments.
 
 Note, in the inset, that the assignment is nested into the field *results*.  helyOS core will forward the *assignment* to the agent indicated by *tool_id* . The agent will finally receive this assignment inside the following data structure:
 
