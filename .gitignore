@@ -11,6 +11,8 @@
 
 _build
 
+html
+
 # IPython
 profile_default/
 ipython_config.py

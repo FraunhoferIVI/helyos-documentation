@@ -9,10 +9,9 @@ Overview
 
 
 Only if the agent UUID is registered in helyOS database, it can exchange messages with helyOS. The messages are used to inform the agent status and perform the assignments. 
-Usually the change from status "non automatable" to "free" must be done manually by the driver. Note that before receiving any assignment, the agent is reserved for the mission.
-That is, the agent changes the status from "free" to "ready" (i.e., read for the mission) upon helyOS Reserve request.
-Once the agent finishes the assignment, the agent will not set itself as "free", but as "ready". 
-This is because helyOS may sent him a second assignment belonging to the same mission. For this reason, the agent must wait the "Release" signal from helyOS to set itself "free".
+Usually the change from status "non automatable" to "free" must be done manually by the driver. 
+
+| Note that before receiving any assignment, the agent is reserved for the mission. That is, the agent changes the status from "free" to "ready" (i.e., read for the mission) upon helyOS Reserve request. Once the agent finishes the assignment, the agent will not set itself as "free", but as "ready". This is because helyOS may sent him a second assignment belonging to the same mission. For this reason, the agent must wait the "Release" signal from helyOS to set itself "free".|
 
 
 Exchange, routing-keys and queues in rabbitMQ

@@ -42,3 +42,4 @@ What is the difference between helyOS and AutoTruck App?
 **helyOS** is a software framework used to facilitate the creation of control tower software for different applications like e.g., agriculture, logistics centers and harbors.
 
 | **AutoTruck App** is proprietary software application used as a frontend tool to prototype projects in logistic centers. AutoTruck App uses helyOS as backend.
+
