@@ -26,4 +26,5 @@ Dresden 01069
    4-helyos-and-microservices/4-index
    5-communication-between-helyos-and-agents/5-index
    6-applications-in-yard-automation/6-index  
+   7-FAQ/7-index
 
