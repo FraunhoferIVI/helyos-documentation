@@ -24,7 +24,7 @@ What is the data format for the agent sensors?
 helyOS uses JSON formats. You are free to decide the data structure according to your frontend.
 If you have no idea, just use the helyOS-native format and you will be safe:
 
-.. figure:: ./img/helyOS_native_sensor.png
+.. figure:: ./img/helyos_native_sensor.png
     :align: center
     :width: 700
 
