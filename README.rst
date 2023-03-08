@@ -2,4 +2,4 @@
 helyOS developer manual
 
 Here is the link: 
-`helyOS Developer Manual <https://wjppppp-helyos-developer-manual.readthedocs.io/en/latest/>`_
+`helyOS Developer Manual <https://helyos-manual.readthedocs.io/en/latest/
