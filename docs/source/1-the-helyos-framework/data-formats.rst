@@ -29,6 +29,7 @@ The agent must provide the uid of the respective yard. helyOS sends the map orig
 - **helyOS map object**
 
   - yard_id: database id of the yard.
+  - name: Name of the map object.
   - **data**: JSON field (defined by the developer).
   - type: string to identify the object.
   - metadata: (optional) JSON field containing any relevant information.
