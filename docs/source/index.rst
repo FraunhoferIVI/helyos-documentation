@@ -4,7 +4,7 @@
    :width: 500pt
 
 helyOS Developer's Manual
-=======================
+=========================
 
 February 22, 2023
 
