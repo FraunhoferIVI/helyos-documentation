@@ -24,7 +24,7 @@ The microservice architecture enables an organization to deliver large, complex 
 
 
 What does it means that "helyOS orchestrates microservices"?
----------------------------------------------------------
+------------------------------------------------------------
 It means that as soon helyOS receives a mission request, helyOS will:
 
 - check the health of the services used by the mission,
@@ -35,7 +35,7 @@ It means that as soon helyOS receives a mission request, helyOS will:
 
 
 What does it means that "helyOS orchestrates assignments"?
----------------------------------------------------------
+-----------------------------------------------------------
 It means that as soon helyOS receives a mission request, helyOS will:
 
 - check the availability of the required agents,
