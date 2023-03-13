@@ -64,7 +64,7 @@ Ref: https://app.swaggerhub.com/apis-docs/helyOS/helyos_agent_comm
 
 Agent data format
 -----------------
-The agent data is saved in the database and can be updated by the helyOS Dashboard, or user interface, or by the own agent via RabbitMQ
+The agent data is saved in the database and can be updated via the helyOS Dashboard, or user interface, or by the agent itself via RabbitMQ
 
 - **Agent Fields**
 
@@ -72,15 +72,18 @@ The agent data is saved in the database and can be updated by the helyOS Dashboa
   - available_operations: array of string defining the operations available for the agent.
   - geometry: free JSON format defining the vehicle geometry.
   - factsheet:  JSON field added for compatibility with VDA 5050.
+
   - x, y, z, orientations : x, y and z a numbers to specify the position of the agent. Orientations is a number array with information of the orientation of the first agent part, and of the joint angles for trailers.
+  
   - status/state: "not_automatable" | "free" | "ready" | "busy" 
-  - sensors: JSON field containing any data about the agent: temperature, diagnosis data, assignment progress, velocity etc.  HelyOS-native sensor data format allows the data be visualized in the helyOS dashboard. However, following this specification is optional; the field sensors can hold any arbitrary data structure. The data format is imposed by the visualization app that the developer choose to read it.
+
+  - sensors: JSON field containing any data about the agent: temperature, diagnosis data, assignment progress, velocity etc.  The **helyOS-native sensor data format** allows the data be visualized in the helyOS dashboard. However, following this specification is optional; the field sensors can hold any arbitrary data structure. The data format is imposed by the visualization app that the developer choose for reading it.
 
 helyOS-native Sensor Data Format
 --------------------------------
-The sensor data returned from agent can have any format.  This information is published in a rabbitMQ topic and helyOS forward this data to user clients via WebSocket. Therefore the user interface must parse the sensor values. 
+The sensor data returned from agent can have any format.  The information is published in a rabbitMQ topic, and helyOS forwards the data to user clients via WebSocket. Therefore, the user interface must parse the sensor values. 
 
-However, if you wish the sensor values to be visualized also on the helyOS Admin dashboard, then you must use the following format:
+However, if you wish the sensor values to be also visualized on the helyOS Admin dashboard, then you must use the following format:
 
 .. figure:: ./img/sensor-data-format.png
     :align: center
@@ -90,8 +93,8 @@ However, if you wish the sensor values to be visualized also on the helyOS Admin
 
 Mission request data format
 ---------------------------
-To create a mission, the software developers must insert a row in the table of work processes. They can use the GraphQL language or the helyOS Javascript SDK.  
-Here again, helyOS does not specify the content of data.
+To create a mission, the software developers must insert a row in the table of work processes. They can use the GraphQL language or the helyOS JavaScript SDK.  
+Here again, helyOS does not specify the content of **data**.
 
 .. code::
 

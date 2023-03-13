@@ -55,7 +55,7 @@ The **context** contains all the yard information at the moment of the dispatch,
 
 Assignment Creation
 ^^^^^^^^^^^^^^^^^^^
-Assignments are created by microservices in the Assignment Planner domain. A microservice can create one or more assignments and can define the dispatch order to the agents.
+Assignments are created by microservices in the *Assignment Planner* domain. A microservice can create one or more assignments per mission, and can define the dispatch order to agents.
 
 .. figure:: ./img/assignment_example.png
   :align: center
@@ -71,9 +71,9 @@ Microservice response data structure as defined in the Assignment planner API.
 - **dispatch_order:**  When assignment must be executed sequentially, this variable is defined as an array of the element indexes of the results array. The order of the indexes defines the order that the correspondent assignment will be dispatched to the agent.
 
 .. note:: 
-  Note: You cannot send more than one mission at once to a same agent. Buy you CAN SEND SEVERAL ASSIGNMENTS to a same agent! E.g., two **results** items with the same **toold_id**.
-  The two assignments will be sent simultaneously to the agent; the agent must be prepared to consume the assignments and smart enough to process them in the correct order. 
-  Otherwise, you can use the **dispatch_order** field to let helyOS to sequentially dispatch the assignments to a same agent.
+  | Note: You cannot send more than one mission at once to a same agent. However, you can SEND SEVERAL ASSIGNMENTS to a same agent! For this, add the assignments as **results** items with the same **toold_id**.
+  
+  | Use the **dispatch_order** field to let helyOS to sequentially dispatch the assignments to a same agent. Otherwise the assignments will be sent simultaneously; in this case, the agent would need to be smart enough to consume and handle the assignments in the correct order.
 
 
 Mission Sequence

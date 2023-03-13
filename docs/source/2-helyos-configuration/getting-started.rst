@@ -1,7 +1,7 @@
 Getting Started 
 ===============
 The easiest way to run helyOS locally is by using the docker image. The docker image can run locally or be deployed in a cloud provider.  
-One can run the docker image using a single line command: 
+The docker image can be run by using a single line command: 
 
 .. code:: 
 

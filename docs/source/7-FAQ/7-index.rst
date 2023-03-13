@@ -20,7 +20,7 @@ Please read: :ref:`helyos_overview`.
 
 Can I send several missions at once to one automated vehicle?
 -------------------------------------------------------------
-No. But you can create **one** mission with **many** assignments to one automated vehicle.
+You can create **one** mission with **many** assignments to one automated vehicle.
 
 
 What is the difference between mission and assignment?

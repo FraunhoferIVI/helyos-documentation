@@ -8,5 +8,6 @@ Here is the link:
 Build locally:
 
 ```
+    cd source
     python -m sphinx -T -E -W --keep-going -b html -d _build/doctrees -D language=en . ../html
 ```
