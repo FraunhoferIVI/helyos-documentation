@@ -4,17 +4,53 @@ FAQ
 Frequently asked questions.
 
 
+Why not code everything in a single backend? Why do I need helyOS?
+-------------------------------------------------------------------------
+Because a monolithic solution for real-world yard automation is unwise from the technical and managerial point of view.
+A yard automation application integrates several technologies and are developed by interdisciplinary teams. The best way to handle
+such a project is by using microservice architectures.
+
+Please read: :ref:`helyos_overview`.
+
+
+What are microservices?
+-----------------------
+Microservices - also known as the microservice architecture - is an architectural style that structures an application as a collection of services that are
+loosely coupled, organized around business capabilities and owned by a small team. 
+The microservice architecture enables an organization to deliver large, complex applications rapidly, reliably and sustainably. 
+
+
+| In the helyOS framework, microservices are used to implement path planners, data parsers, map servers, storage services, etc. They are grouped and arranged according to the mission requirements.
+
+
+What does it means that "helyOS orchestrates microservices"?
+---------------------------------------------------------
+It means that as soon helyOS receives a mission request, helyOS will:
+
+- check the health of the services used by the mission,
+- sequentially dispatch the request data to these services,
+- periodically pool the server response if it is not immediately  available,
+- forward the response from one service to the next one (if required),
+- deliver the service response to the agents
+
+
+What does it means that "helyOS orchestrates assignments"?
+---------------------------------------------------------
+It means that as soon helyOS receives a mission request, helyOS will:
+
+- check the availability of the required agents,
+- send a signal to reserve the agents for the mission, 
+- sequentially send the mission assignments to the agents as specified in the mission.
+- release the agents if there is no more assignments to be executed in the mission or if the mission was canceled.
+
+
+
+
+
 Can helyOS calculate trajectory paths?
 --------------------------------------
 No. helyOS connects to a server that calculates paths. helyOS takes care of delivering the calculated paths to the “free” agents. 
-You need only to register the server URL as microservice in helyOS dashboard.
-
-
-Why not code everything in a single backend? Why do I need helyOS?
--------------------------------------------------------------------------
-Because a monolithic solution for real-world yard automation is a nightmare from the technical and managerial point of view.
-
-Please read: :ref:`helyos_overview`.
+You need only to register the server URL as microservice in the helyOS dashboard.
 
 
 
