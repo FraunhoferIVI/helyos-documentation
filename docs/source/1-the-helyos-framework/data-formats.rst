@@ -1,35 +1,35 @@
 Data Formats 
 ============
 
-The helyOS use JSON formats. Except by a minimum set of required fields used by helyOS to control the data flow, developers can freely choose the data structure of 
+helyOS use JSON formats. Except for a minimum set of required fields used by helyOS to control the data flow, developers can freely choose the data structure of 
 the assignment, map and sensor data.  In helyOS framework, most of the data formats used in a project will result from agreements between user interface programmers, 
 path planers developers and the vehicle controller developers.
 
 Yard and map formats
 --------------------
-HelyOS is very flexible regarding map data structure. The map information is organized by yards, each yards has n **map objects**. Each map object has a JSON field data. 
+helyOS is very flexible regarding map data structure. The map information is organized by yards, with each yard containing n **map objects**. Each map object has a JSON data field. 
 
 The map object data can contain any kind of information; from a simple polygon representing an obstacle to a complete Geo-JSON data structure representing a map layer. 
-The definition of map objects and the alignment with other entities of a project is responsibility of the developers.
+The definition of map objects and the alignment with other entities of a project lies within the responsibility of the developers.
 
 - **helyOS yard**
 
   - id: database id. Automatically generated.
   - uid: string that identify the yard.
-  - name: Name of the yard.
+  - name: name of the yard.
   - lat: latitude map origin.
   - lon: longitude map origin.
   - alt: altitude map origin.
   - map_data: (optional) JSON field containing relevant rendering information or metadata.
   - data_format: (optional) name of the map data format. Example: "Trucktrix-Map"
 
-An agent arriving to an automated yard must perform the check in on that yard. The check in procedure registers the agent to the helyOS system. 
-The agent must provide the uid of the respective yard. helyOS sends the map origin as part of the Check-In-Response.
+An agent arriving at an automated yard must perform the check-in for that yard. The check-in procedure registers the agent to the helyOS system. 
+The agent must provide the uid of the respective yard. helyOS returns the map origin as part of the Check-In-Response.
 
 - **helyOS map object**
 
   - yard_id: database id of the yard.
-  - name: Name of the map object.
+  - name: name of the map object.
   - **data**: JSON field (defined by the developer).
   - type: string to identify the object.
   - metadata: (optional) JSON field containing any relevant information.
@@ -40,7 +40,7 @@ Assignment data format
 ----------------------
 helyOS is agnostic regarding the assignment data format. Nevertheless, the assignment must be enclosed in a JSON structure together with other fields that will help helyOS to route the assignment to the correct agent.
 
-In helyOS framework, the assignment is originated from a microservice [*]. That is, the developers must create a microservice that produces the assignment data. The response of the microservice must have the following data structure: 
+In the helyOS framework, the assignment is originated from a microservice [*]. That is, the developers must create a microservice that produces the assignment data. The  microservice's response must have the following data structure: 
 
 .. figure:: ./img/request-data-format.png
     :align: center
@@ -57,7 +57,7 @@ Note, in the inset, that the assignment is nested into the field *results*.  hel
     Data format: RabbitMQ message of assignment as received by the agent.
 
 
-.. [*] The assignment data can be also created inside the frontend if the related mission uses a microservice set as dummy in the helyOS dashboard. A dummy microservice just reflect back the request data as the response.
+.. [*] The assignment data can be also created in the frontend if the related mission uses a microservice set as dummy in the helyOS dashboard. A dummy microservice simply reflects back the request data as the response.
 
 Ref: https://app.swaggerhub.com/apis-docs/helyOS/helyos_agent_comm
 

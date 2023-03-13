@@ -3,16 +3,16 @@
    :align: center
    :width: 500pt
 
-helyOS Developer Manual
+helyOS Developer's Manual
 =======================
 
-22.02.2023 
+February 22, 2023
 
 (version 1.0)
 
 
 Fraunhofer IVI 
-ZeunerStraße 38, 
+ZeunerStrassee 38, 
 Dresden 01069
 
 
