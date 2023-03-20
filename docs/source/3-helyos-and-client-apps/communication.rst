@@ -1,8 +1,9 @@
 Communication
 =============
-The communication between helyOS and agents uses the GraphQL language. The GraphQL is designed to make a database API flexible, and developer-friendly. As an alternative to REST, GraphQL lets developers construct requests that pull and change data from multiple tables. GraphQL is the default language to interact with the helyOS-based application and access the yard state.  
+The communication between helyOS and user apps uses the GraphQL language. GraphQL is designed to make database APIs flexible and developer friendly. As an alternative to REST, GraphQL lets developers construct requests that pull and change data from multiple tables. GraphQL is the default language to interact with helyOS-based applications and to access the yard state. 
 
-The GraphQL queries and mutations can be tested using the GraphiQL developer interface: 
+GraphQL queries and mutations can be tested using the GraphiQL developer interface: 
+
 
 http://localhost:5000/graphiql
 
@@ -12,7 +13,7 @@ http://localhost:5000/graphiql
 
     GraphiQL view
 
-For example a graphql request to create a mission in plain python would be written as:
+For example, a GraphQL request to create a mission in plain python would be written as:
 
 .. code:: python
 
@@ -52,7 +53,8 @@ For example a graphql request to create a mission in plain python would be writt
     response = requests.post(url, headers=headers, json=body_data)
 
 
-Using graphQL python libraries this can be written more concisely. By using our `helyOS-javascript-sdk <https://github.com/FraunhoferIVI/helyOS-javascript-sdk>`_, the above code becomes:
+ Using GraphQL python libraries, this can be written more concisely.  
+ By using our helyOS- Javascript SDK  `helyOS-javascript-sdk <https://github.com/FraunhoferIVI/helyOS-javascript-sdk>`_, the above code becomes:
 
 .. code:: JavaScript
 

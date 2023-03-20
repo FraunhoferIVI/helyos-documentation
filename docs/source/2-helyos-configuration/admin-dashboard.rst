@@ -94,13 +94,13 @@ The missions trigger one or more microservices. The sequential order of microser
 In this view, the developer registers the microservices employed in the missions. Each microservice must belong to one of the three available domains:
 
 Assignment domain: 
-    Microservice responses are interpreted as assignment to an agent.
+    microservice responses are interpreted as assignment to an agent.
 
 Map domain:
-    Microservice responses are interpreted as updates for the map objects.
+    microservice responses are interpreted as updates for the map objects.
 
 Storage domain: 
-    Microservice does not respond with relevant data, the request is only used to push data to an external storage server and return the request status (2XX or 4XX).
+    microservice does not respond with relevant data, the request is only used to push data to an external storage server and return the request status (2XX or 4XX).
 
 .. figure:: ./img/microservices-view.png
     :align: center
@@ -112,12 +112,12 @@ When registering the microservice the following information is required:
 
 - **Name:** Identify the microservice
 - **URL:** Complete url address, including http or https prefix and the port suffix.
-- **Domain:** Choose between Assignment, Map or Storage domain.
+- **Domain:** Choose between *Assignment*, *Map* or *Storage* domain.
 - **API key:** Token used to authenticate the request call. It will be added to the request headers under the key *Authorization*.
-- **Enable/Disable button:** To enable a microservice.
+- **Enable/Disable button:** Enables/disables a microservice.
 - **Type:**  Any word chosen by the developer to define a class of functionality for the microserver (e.g field_planner, driving_planner). This word is important because it will be used later to define a mission. Many microservices can have the same Type, but only one of them can be enabled at a given time.
 - **Process time limit:** Maximum amount of time the system will wait for the microservice result. Not to be confused with the HTTP request timeout, used in the long poll approach. helyOS uses periodic polls spaced by 5 to 10 seconds to get the microservice results.
-- **Config:** User-defined JSON field where the developer can pass fix parameters for the microservice
+- **Config:** User-defined JSON field where the developer can pass fixed parameters on to the microservice
 
 .. code:: 
 
@@ -133,15 +133,15 @@ yard state and the response of the previous chained  microservice. The yard stat
 
 The Dummy Service 
 ^^^^^^^^^^^^^^^^^
-When a microservice is marked as dummy, helyOS will not send requests to any URL. helyOS will just copy the mission request data to the result field of the microservice. 
+When a microservice is marked as dummy, helyOS will not send requests to any URL. Instead, helyOS will just copy the mission request data to the result field of the microservice. 
 This is useful in the scenario where the application does not need to perform any calculation in microservices, e.g., if pre-defined assignment or map updates are already 
 stored in the client.  For example, if the dummy service was registered in the assignment domain, the *Client* can directly send the assignment data to the agent. 
-If it was registered in the Map domain, the request data will be directly used to update the map objects.
+If it was registered in the *Map* domain, the request data will be directly used to update the map objects.
 
 
 "Missions Recipes" View
 ---------------------------
-In this view the developer will decompose the previously registered mission in microservice calls. This is done by adding rows to the "Service Matrix" (click Add button). 
+In this view the developer will decompose the previously registered mission into microservice calls. This is done by adding rows to the "Service Matrix" (click Add button). 
 Each row corresponds to a step in the mission process and is used to orchestrate the microservice calls.
 
 .. figure:: ./img/mission-recipes-view.png
@@ -154,11 +154,13 @@ Each row corresponds to a step in the mission process and is used to orchestrate
 
 - **Service Type:** It defines which microservice will be used in the step. The step will call the enabled microservice of the given "Type".  The "Type" is defined when the microservices are registered. Note that only one microservice of a given "Type" is enabled.
 
-- **Service Response:** If the microservice called in the step is producing an intermediate result in a chain of microservice calls, the option "intermediate step" should be marked. If the microservice response has the assignment or the map update data ready to be executed, the option "apply step result" should be marked.
+- **Service Response:** If the microservice called in the step will produce an intermediate result in a chain of 
+microservice calls, the option "intermediate step" should be marked. If the microservice response contains assignment 
+or the map update data ready to be executed, the option "apply step result" should be marked.
 
-- **Request Order:** If the microservice called in the step is producing an intermediate result in a chain of microservice calls, the option "intermediate step" should be marked. If the microservice response has the assignment or the map update data ready to be executed, the option "apply step result" should be marked.
+- **Request Order:** : The order in which the requests will be dispatched. Note that the microservice responses can return in any order, since the services are asynchronous. If you want to ensure that the order of the microservices responses reflects the order of request dispatches, you must set the “Step Dependencies”.
 
-- **Step Dependences:** Define dependencies with other steps (microservices). For instance, if step "C" depends on a step "A" and "B",, the microservice associated with step "C" will be executed only after the response of step "A" and "B"  are received. The responses of the steps "A" and "B" will be automatically appended in the context of the request of step "C".
+- **Step Dependences:**  Define dependencies on other steps (microservices).  For instance, if step “C” depends on step “A” and “B”, the microservice associated with step “C” will be executed only after the responses of steps “A” and “B” are received. The responses of steps “A” and “B” will be automatically appended in the context of the step “C” request.
 
 .. figure:: ./img/example1.png
     :align: center

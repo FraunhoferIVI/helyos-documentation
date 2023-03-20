@@ -1,12 +1,9 @@
 Implementation of a Yard Automation Application
 ===============================================
 
-The helyOS core is a single NodeJS application serving the ports 5000, 5002, and 8080, respectively for the GraphQL, Web socket connections and dashboard GUI. 
-HelyOS connects as a client to postgres and rabbitMQ. All parameters for these connections are passed as environment variables.
+helyOS core is a single NodeJS application serving ports 5000, 5002 and 8080 for the GraphQL connection, the web socket connection and the dashboard GUI respectively. helyOS connects as a client to Postgres and RabbitMQ. All parameters for these connections are passed as environment variables.
 
-Since helyOS is containerized, it is easy to launch a helyOS application in the cloud. One can run the container inside a single Linux or Windows computer of a cloud 
-provider, or implement helyOS in a serveless approach using available cloud products with horizontal auto scaling, or even implement your own kurbenets structure to 
-have fine control of the reliability and availability of your application.
+Since helyOS is containerized, it is easy to launch a helyOS application in the cloud. Users can either run the container inside a single Linux or Windows computer of a cloud provider, or they can implement helyOS in a serverless approach using available cloud products with horizontal auto scaling.
 
 .. figure:: ./img/yard-application-framework.png
     :align: center
@@ -14,10 +11,10 @@ have fine control of the reliability and availability of your application.
 
     helyOS yard automation application
 
-What is possible in helyOS framework?
--------------------------------------
+What is possible in the helyOS framework?
+-----------------------------------------
 
-The helyOS framework gives the developer a lot of options to solve yard automation problems. To better use this flexibility, helyOS framework suggests are template to organize the data flow and the responsibilities of each domain. Following this template will lead to a more robust and maintainable software architecture.
+The helyOS framework gives developers many options to solve yard automation problems. To better use this flexibility, the helyOS framework suggests a template to organize the data flow and the responsibilities of each domain. Following this template will lead to a more robust and maintainable software architecture.
 
 .. figure:: ./img/helyos-framework-possibilities.png
     :align: center 

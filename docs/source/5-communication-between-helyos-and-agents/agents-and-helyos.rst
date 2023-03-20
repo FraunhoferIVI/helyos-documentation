@@ -8,13 +8,12 @@ Overview
     The process of agents receiving mission assignments
 
 
-Only if the agent UUID is registered in helyOS database, it can exchange messages with helyOS. The messages are used to inform the agent status and perform the assignments. 
-Usually the change from status "non automatable" to "free" must be done manually by the driver. 
+Only if the agent uuid is registered in the helyOS database can the agent and helyOS exchange messages to report on an agent’s status and perform the assignments. Usually, the status change from “non automatable” to “free” must be set manually in the agent.
 
 | Note that before receiving any assignment, the agent is reserved for the mission. That is, the agent changes the status from "free" to "ready" (i.e., read for the mission) upon helyOS Reserve request. Once the agent finishes the assignment, the agent will not set itself as "free", but as "ready". This is because helyOS may sent him a second assignment belonging to the same mission. For this reason, the agent must wait the "Release" signal from helyOS to set itself "free".|
 
 
-Exchange, routing-keys and queues in rabbitMQ
+Exchange, Routing-keys and Queues in RabbitMQ
 ---------------------------------------------
 
 .. figure:: ./img/helyOS_rabbitMQ.png
@@ -23,7 +22,7 @@ Exchange, routing-keys and queues in rabbitMQ
 
     helyOS and rabbitMQ
 
-All the messages exchanged between helyOS and agents have the common fields:
+All messages exchanged between helyOS and the agents include the following common fields:
 
 - **type:** string, ex: "checkin", "assignment", "cancel", etc..
 - **uuid:** string,
@@ -31,15 +30,15 @@ All the messages exchanged between helyOS and agents have the common fields:
 
 Check in agent in helyOS
 ------------------------
-To receive assignments from helyOS, the agent must perform a procedure called "check in".
+To receive assignments from helyOS, the agent must perform a procedure called "check-in".
 
-In the check in procedure the agent will 
+In the check-in procedure, the agent will 
 
-- Connect as anonymous [*]_ to rabbitMQ and send its identification data using the routing key **agent-{uuid}-checkin**.
-- Receives an individual username and password to access rabbitMQ.
+- Connect as anonymous [*]_ to RabbitMQ and send its identification data using the routing key **agent-{uuid}-checkin**.
+- Receive an individual username and password to access RabbitMQ.
 - Create queues to receive the messages using the routing key to **agent-{uuid}-assignments** and **agent-{uuid}-instantActions**.
 
-.. [*] Agents logged as anonymous are not allowed to perform any other operation than “check in”.
+.. [*] Agents logged as anonymous are not allowed to perform any other operation than “check-in”.
 
 .. figure:: ./img/agent_check_in.png
     :align: center
@@ -47,7 +46,7 @@ In the check in procedure the agent will
 
     Agent check in example
 
-Check in data sent by the agent to helyOS.
+Check-in data sent by the agent to helyOS.
 
 - **Type** = "checkin".
 - **Geometry:** JSON informing the physical geometry data of the vehicle.
