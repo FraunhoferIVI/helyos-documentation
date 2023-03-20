@@ -42,7 +42,7 @@ The helyOS-agent-sdk includes the following functionalities:
 2. registration in helyOS yard (check in)
 3. report sensors and agent states to helyOS core.
 4. receive assignments and instant action commands from helyOS core
-5. communicate with other agents and devices in the same rabbitMQ network
+5. communicate with other agents and devices in the same RabbitMQ network
 
 Source Code: https://github.com/FraunhoferIVI/helyOS-agent-sdk
 

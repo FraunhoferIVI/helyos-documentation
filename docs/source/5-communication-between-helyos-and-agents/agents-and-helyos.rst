@@ -109,11 +109,11 @@ The same code using helyOS-agent-sdk python package:
 helyOS-agent-sdk HelyOSClient and AgentConnector have many other attributes and methods to send and receive data from helyOS core in the correct data format. 
 Check the documentation at https://fraunhoferivi.github.io/helyOS-agent-sdk/build/html/index.html.
 
-helyOS reserves agent for mission
+helyOS Reserves Agent for Mission
 ---------------------------------
-When helyOS needs an agent to take part in a mission, helyOS core will reserve this agent before sending it assignments. This is done via the instant action routing key, *agent.{uiid}.InstantAction* . helyOS requests the agent to be in **"ready"** status (status="ready" and reserved=True). After the assignment is finished, the agent updated its status to **"free"**.  After the assignment is complete, helyOS will release or not the agent depending on the existence of further assignments in that mission. The release message is also delivered via instant actions.
+When helyOS needs an agent to take part in a mission, helyOS core will reserve this agent before sending assignments to it. This is done via the instant action routing key, *agent.{uiid}.InstantAction* . helyOS requests the agent to be in **"ready"** status (status="ready" and reserved=True). After the assignment is finished, the agent updates its status from **"busy"** to **"ready"**.  After the assignment is complete, helyOS will  or not release the agent depending on the existence of further assignments in that mission. The release message is also delivered via instant actions.
 
-HelyOS sends assignment to agent
+helyOS Sends Assignment to Agent
 --------------------------------
 helyOS will send an assignment to the agent **only if the agent status is "ready"**.   This is done via the routing key *agent.{uiid}.assignments*. 
 
@@ -123,16 +123,16 @@ helyOS will send an assignment to the agent **only if the agent status is "ready
 
     Assignment object data format
 
-An easy-to-implement security mechanism is to check the identity of the assignment sender. This is an embedded feature from RabbitMQ. For example, if your agent should only execute assignments from helyOS core, you can filter assignments originated from the RabbitMQ account "helyOS_core".
+An easy-to-implement security mechanism is to check the identity of the assignment sender. This is an embedded feature of RabbitMQ. For example, if you want your agent to only execute assignments from helyOS core, you can filter assignments originated from the RabbitMQ account "helyos_core".
 
-Agent requests a mission 
+Agent Requests a Mission 
 ------------------------
 
-Not only client apps but also agents can request missions to helyOS core. This features is useful for situations as the following:
+In addition to client apps, agents can also request missions from helyOS core. This feature is useful for situations such as the following:
 
 - A smart camera identify a new obstacle and requests a mission to update helyOS map by sending the position of a new obstacle.
-- A tractor requests a mission to ask assistance of another agent to execute a task.
-- A truck find itself obstructed by a fixed obstacle, it requests a mission to helyOS to remove itself from this deadlock situation.
+- A tractor requests a mission to ask assistance of another agent for executing a task.
+- A truck finds itself obstructed by a fixed obstacle, it requests a mission from helyOS to remove itself from this deadlock situation.
 
 
 

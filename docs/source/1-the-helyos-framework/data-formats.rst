@@ -1,9 +1,7 @@
 Data Formats 
 ============
 
-helyOS use JSON formats. Except for a minimum set of required fields used by helyOS to control the data flow, developers can freely choose the data structure of 
-the assignment, map and sensor data.  In helyOS framework, most of the data formats used in a project will result from agreements between user interface programmers, 
-path planers developers and the vehicle controller developers.
+helyOS uses JSON formats. Except fora minimum set of required fields used by helyOS to control the data flow, developers can freely choose the data structure of the assignment, map and sensor data. In the helyOS framework, most of the data formats used in a project will result from agreements between user interface programmers, path planner developers and the agent controller developers.
 
 Yard and map formats
 --------------------
@@ -14,7 +12,7 @@ The definition of map objects and the alignment with other entities of a project
 
 - **helyOS yard**
 
-  - id: database id. Automatically generated.
+  - id: database id, automatically generated.
   - uid: string that identify the yard.
   - name: name of the yard.
   - lat: latitude map origin.
@@ -81,9 +79,10 @@ The agent data is saved in the database and can be updated via the helyOS Dashbo
 
 helyOS-native Sensor Data Format
 --------------------------------
-The sensor data returned from agent can have any format.  The information is published in a rabbitMQ topic, and helyOS forwards the data to user clients via WebSocket. Therefore, the user interface must parse the sensor values. 
+The sensor data returned from an agent can have any format. The information is published in a RabbitMQ topic, and helyOS forwards the data to user clients via WebSocket. Therefore, the user interface must be aligned with the information and parse the sensor values. 
 
-However, if you wish the sensor values to be also visualized on the helyOS Admin dashboard, then you must use the following format:
+However, if you wish the sensor values to also be visualized on the helyOS admin dashboard, then you must use the following format:
+
 
 .. figure:: ./img/sensor-data-format.png
     :align: center

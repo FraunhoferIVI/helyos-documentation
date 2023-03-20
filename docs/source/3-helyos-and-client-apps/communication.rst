@@ -53,8 +53,7 @@ For example, a GraphQL request to create a mission in plain python would be writ
     response = requests.post(url, headers=headers, json=body_data)
 
 
- Using GraphQL python libraries, this can be written more concisely.  
- By using our helyOS- Javascript SDK  `helyOS-javascript-sdk <https://github.com/FraunhoferIVI/helyOS-javascript-sdk>`_, the above code becomes:
+Using GraphQL python libraries, this can be written more concisely. By using our helyOS- Javascript SDK  `helyOS-javascript-sdk <https://github.com/FraunhoferIVI/helyOS-javascript-sdk>`, the above code becomes:
 
 .. code:: JavaScript
 

@@ -27,7 +27,7 @@ Example of mission: The mission type is “driving” and it employs the agent (
   - **status:**  'draft' | "cancelling" |  'canceled' |  "dispatched" | "preparing resources" | "calculating" | "executing" |  "succeeded". When creating, you can only define as 'draft' or "dispatched". Once the status is set as 'dispatched', the helyOS will prompt the execution of the mission.  When updating, you can only set the status as "cancelling" or "dispatched".  - **toolIds:** A list containing only the database ids of the agents taking part in the mission. This agents will be reserved by helyOS core.
   - **waitFreeAgent (optional):** Default is true. It defines whether helyOS must wait for all agents listed in toolIds to report their status as “free” before triggering the mission calculations. Set false if you don’t need to reserve the agent and you can pile up assignments in the agent queue. Notice that this may produce assignments calculated with outdated yard data. 
 
-- **The follow field is saved by helyOS core and just forwarded to the microservice(s).**
+- **The following field is saved by helyOS core and just forwarded to the microservice(s).**
 
   - **data:** The mission data, a user-defined JSON  field which is specific to the application. This field will be forwarded to the microservices. The microservice will receive the mission data from the client software along with the yard state from helyOS core (helyOSContext). The developer must therefore add here any necessary information that is not present in the yard state. For example, pointing out the agent Id that will receive the assignment, or the ordering that the assignment must be executed.  
 

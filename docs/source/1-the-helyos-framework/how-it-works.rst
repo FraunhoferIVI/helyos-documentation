@@ -6,7 +6,7 @@ Software Components
 
 The helyOS framework contains three software components: 
 
-- **helyOS core**: a flexible backend software that receives mission requests from frontend apps and uses microservices to transform these requests into robots assignments. 
+- **helyOS core**: a flexible backend software that receives mission requests from frontend apps and uses microservices to transform these requests into robot assignments. 
 - **helyOS Agent SDK**: a Python library used to connect agents (robots and vehicles) to helyOS core via rabbitMQ.  
 - **helyOS JavaScript SDK**: a JavaScript library used to create frontend apps that communicate with helyOS core. 
 
@@ -30,4 +30,4 @@ helyOS uses JSON formats. Except for a minimum set of required fields used to co
 Communication
 -------------
 
-helyOS uses the HTTP protocol to communicate with microservices and frontends, and RabbitMQ to communicate with the agents. helyOS uses RabbitMQ and consequently the AMQP protocol. AMQP originated from the financial industry, where it is used for the safe communication of financial data. Its main developers are Cisco, Red Hat, IONA and Twist. This protocol allows both *produce/consume* queue and the *publish/subscribe* patterns with advanced routing features. RabbitMQ is also a reference for microservice architecture and the development of remote procedure calls.
+helyOS uses the HTTP protocol to communicate with microservices and frontends, and RabbitMQ to communicate with the agents. helyOS uses RabbitMQ and consequently the AMQP protocol. AMQP originated from the financial industry, where it is used for the safe communication of financial data. Its main developers are Cisco, Red Hat, IONA and Twist. This protocol allows both *produce/consume* queue and *publish/subscribe* patterns with advanced routing features. RabbitMQ is also a reference for microservice architecture and the development of remote procedure calls.
