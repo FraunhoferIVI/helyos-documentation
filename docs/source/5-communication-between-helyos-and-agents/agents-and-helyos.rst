@@ -10,7 +10,7 @@ Overview
 
 Only if the agent uuid is registered in the helyOS database can the agent and helyOS exchange messages to report on an agent’s status and perform the assignments. Usually, the status change from “non automatable” to “free” must be set manually in the agent.
 
-| Note that before receiving any assignment, the agent is reserved for the mission. That is, the agent changes the status from "free" to "ready" (i.e., read for the mission) upon helyOS Reserve request. Once the agent finishes the assignment, the agent will not set itself as "free", but as "ready". This is because helyOS may sent him a second assignment belonging to the same mission. For this reason, the agent must wait the "Release" signal from helyOS to set itself "free".|
+| Note that before receiving any assignment, the agent must be reserved for the assignment mission. That is, the agent changes the status from "free" to "ready" (i.e., ready for the mission) upon helyOS *Reserve* request. Once the agent finishes the assignment, the agent will not set its status from "busy" to "free", but to "ready". This is because helyOS may sent him a second assignment belonging to the same mission. For this reason, the agent must wait the "Release" signal from helyOS to set itself "free".|
 
 
 Exchange, Routing-keys and Queues in RabbitMQ
@@ -22,11 +22,35 @@ Exchange, Routing-keys and Queues in RabbitMQ
 
     helyOS and rabbitMQ
 
+Thanks to the RabbitMQ routing features, any RabbitMQ client subscribing to the topic exchange *agent_ul* can get the messages filtered by  routing-keys. 
+
+The agents will address their messages to the following routing-keys: 
+
+- **agent.{uuid}.checkin** : used only for check-in data.
+- **agent.{uuid}.update** : messages related to updates of agent properties. e.g., vehicle name, geometry data.
+- **agent.{uuid}.visualization** : messages reporting the positioning and sensor data. 
+- **agent.{uuid}.state** : messages reporting the assignment status and agent state.
+- **agent.{uuid}.mission** : messages to request missions from helyOS.
+- **agent.{uuid}.factsheet** : (included for compatibility with VDA5050) messages to report geometry.
+
+The agents will receive messages from the following routing-keys: 
+
+- **agent.{uuid}.assignment** or **agent.{uuid}.order**: receive assignments.
+- **agent.{uuid}.instantAction** : receive instant action commands from helyOS core or any other RabbitMQ client.
+
+
 All messages exchanged between helyOS and the agents include the following common fields:
 
 - **type:** string, ex: "checkin", "assignment", "cancel", etc..
 - **uuid:** string,
 - **body:** JSON object.
+
+The **body** field will be specific for each message type. The easiest way to communicate to helyOS is to use the agent SDK connector methods: *publish_general_updates*, *pusblish_states* and *publish_sensors*.
+
+Ref: 
+`Documentation <https://fraunhoferivi.github.io/helyOS-agent-sdk/build/html/apidocs/helyos_agent_sdk.connector.html#module-helyos_agent_sdk.connector>`_ and `Examples <https://fraunhoferivi.github.io/helyOS-agent-sdk/build/html/examples/index.html>`_
+
+
 
 Check in agent in helyOS
 ------------------------
@@ -115,6 +139,8 @@ When helyOS needs an agent to take part in a mission, helyOS core will reserve t
 
 helyOS Sends Assignment to Agent
 --------------------------------
+As earlier mentioned, the assignments usually originated from the microservices. That is, the microservices translate the requested mission in assignments: :ref:`helyos_overview`. The microservices  return the assignments to helyOS core, and  helyOS  distributes them to the agents.
+
 helyOS will send an assignment to the agent **only if the agent status is "ready"**.   This is done via the routing key *agent.{uiid}.assignments*. 
 
 .. figure:: ./img/assignment-data-format.png

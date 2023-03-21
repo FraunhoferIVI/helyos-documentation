@@ -49,6 +49,7 @@ The **context** contains all the yard information relevant at the moment of the 
 
   helyOSContext example
 
+.. _assignment_creation:
 
 Assignment Creation
 ^^^^^^^^^^^^^^^^^^^
