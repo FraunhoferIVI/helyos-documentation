@@ -10,5 +10,7 @@ In general terms, to configure helyOS as the backend of a yard automation applic
 6. Register microservices in the "Microservices" view. They will be used to process the mission's request data and produce assignment data, e.g. a trajectory path for the vehicle.
 7. Create "Mission Recipes", that is, associate each mission to one or more of the registered microservices.
 
-Once helyOS core is running, the front-end developer can run the user interface (e.g. Graphana boards, web applications, etc.). The frontend developer will use either 
- **helyOS JavaScript SDK**  (for web applications) or the **GraphQL** language (for any kind of application) to create missions and access all data from the yard and the automated vehicles.
+
+
+
+  Using helyOS core as a backend, the front-end developer can run the user interface (e.g. Graphana boards, web applications, etc.). The frontend developer may use either **helyOS JavaScript SDK**  (for web applications) or the **GraphQL** language (for any kind of application) to create missions and access all data from the yard and the automated vehicles.

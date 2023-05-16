@@ -135,7 +135,17 @@ Check the documentation at https://fraunhoferivi.github.io/helyOS-agent-sdk/buil
 
 helyOS Reserves Agent for Mission
 ---------------------------------
-When helyOS needs an agent to take part in a mission, helyOS core will reserve this agent before sending assignments to it. This is done via the instant action routing key, *agent.{uiid}.InstantAction* . helyOS requests the agent to be in **"ready"** status (status="ready" and reserved=True). After the assignment is finished, the agent updates its status from **"busy"** to **"ready"**.  After the assignment is complete, helyOS will  or not release the agent depending on the existence of further assignments in that mission. The release message is also delivered via instant actions.
+Before processing a mission request, helyOS core will reserve the required agent(s). This is done via the instant action routing key, *agent.{uiid}.InstantAction*. helyOS requests the agent to be in **"ready"** status (status="ready" and reserved=True). During the assignment, the agent's status changes to **"busy"**.  After the assignment is compolete, the agent updates its status from **"busy"** to **"ready"**. At this point, helyOS may release the agent, depending on the presence of any further assignments in that mission.
+The release message is also delivered via instant actions.
+
+The agent reservation is important because 
+
+(i) Mission calculations can require considerable computational power and be take several seconds. Therefore, the agent must remain available during these period and not be used by other tasks.
+
+(ii) Some missions require unique tools or devices that may not be present at the required agent. Thus, ensuring the readiness of both the agent and its hardware for the specific assignment is important.
+
+(iii) In the interest of security, heavy agents, even those set to automatable mode, should communicate their upcoming assignment visually or soundly to their surroundings. This feature allows anyone nearby to abort the assignment if deemed necessary.
+
 
 helyOS Sends Assignment to Agent
 --------------------------------
