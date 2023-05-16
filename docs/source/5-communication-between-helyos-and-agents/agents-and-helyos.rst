@@ -140,11 +140,11 @@ The release message is also delivered via instant actions.
 
 The agent reservation is important because: 
 
-(i) Mission calculations can require considerable computational power and take several seconds. Therefore, the agent must remain available during these period and not be used by other tasks.
+(i) Mission calculations can require considerable computational power and take several seconds. Therefore, the agent must remain available during this period and not be used by other tasks.
 
 (ii) Some missions require unique tools or devices that may not be present at the required agent. Thus, ensuring the readiness of both the agent and its hardware for the specific assignment is important.
 
-(iii) In the interest of security, heavy agents, even those set to automatable mode, should communicate their upcoming assignment visually or soundly to their surroundings. This feature allows anyone nearby to abort the assignment if deemed necessary.
+(iii) In the interest of security, heavy agents, even those set to automatable mode, should communicate their upcoming assignment visually or soundly to their surroundings. This feature allows anyone nearby to abort the assignment before it starts if deemed necessary.
 
 
 helyOS Sends Assignment to Agent
