@@ -26,7 +26,7 @@ In this view, the administrator will register the agents (vehicles, robots) and 
 
 .. figure:: ./img/register-agents-view.png
     :align: center
-    :width: 600
+    :width: 800
 
     Register agents view
 
@@ -39,6 +39,12 @@ In this view, the administrator will register the agents (vehicles, robots) and 
 - **Public key:** RSA public key, the correspondent private key will be saved in the agent. It is used to send encrypted messages to the agent.
 
 - **accept assignments:** This field specifies wheather the agent can receive assignments.
+
+
+.. figure:: ./img/agent_properties_dashboard.png
+    :align: center
+    :width: 600
+
 
 .. note:: 
     ATTENTION: Once the agent is connected to helyOS, the next fields may be constantly updated, overwriting any information that you input in the form.

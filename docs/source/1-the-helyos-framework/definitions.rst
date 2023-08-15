@@ -16,7 +16,9 @@ A device that receives assignments. E.g., automated vehicles, cameras, traffic l
 helyOS core
 -----------
 The main component of the system, enclosing the business logics and the orchestration of  services and assignments to the agents. It can also work as the backend for web applications.  
- 
+
+.. _helyos_assignment: 
+
 Assignment
 ----------
 A task or group of tasks delivered to the agent by the helyOS core via rabbitMQ. The agent must complete the entire assignment without the support of the helyOS core. The agent must report the assignment status as "running", "completed", "aborted" or "failed". helyOS core can of course send a cancel request to the agent for terminating the assignment. 
