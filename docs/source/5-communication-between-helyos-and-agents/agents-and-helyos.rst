@@ -37,7 +37,7 @@ All messages exchanged between helyOS and the agents include the following commo
 
 The **body** field will be specific for each message type. The easiest way to communicate to helyOS is to use the agent SDK connector methods: *publish_general_updates*, *pusblish_states* and *publish_sensors*.
 
-.. figure:: ./img/rabbitmq_topics_explained.png
+.. figure:: ./img/rabbitmq_topics_explained_2.png
     :align: center
     :width: 800
 
