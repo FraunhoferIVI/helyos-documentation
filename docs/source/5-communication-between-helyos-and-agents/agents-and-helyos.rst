@@ -32,8 +32,10 @@ Routing-keys can be converted to topics for MQTT clients. Check the table below.
 All messages exchanged between helyOS and the agents include the following common fields:
 
 - **type:** string, ex: "checkin", "assignment", "cancel", etc..
-- **uuid:** string, agent who is publishing the message.
+- **uuid:** string, the identification of the agent the message is about.
 - **body:** JSON object.
+
+The additional field **metadata** is present for some messages.
 
 The **body** field will be specific for each message type. The easiest way to communicate to helyOS is to use the agent SDK connector methods: *publish_general_updates*, *pusblish_states* and *publish_sensors*.
 
@@ -141,32 +143,65 @@ In the check-in procedure, the agent will
 - If the agent is connected as anonymous and possess the helyOS registration token, a new username and password will be automatically created.
 - Create a temporary queue to receive the check-in response.
 
-.. figure:: ./img/agent_check_in.png
-    :align: center
-    :width: 600
+.. code-block:: typescript
+    :caption: Check-in data sent by the agent to helyOS core. The symbol (?) means optional.
 
-    Agent check in example
+    CheckinCommandMessage {
+        type: "checkin";
 
-Check-in data sent by the agent to helyOS.
+        uuid: string;
 
-- **type** = "checkin".
+        body: {  
+                yard_uid: string;         // yard the agent is checking in.
+                status: string;
+                pose: { x:number, y:number, z:number, orientations:number[]};
+                type?: string;
+                name?: string;
+                data_format?: string;
+                public_key?: string;
+                geometry?: AnyDataFormat;
+                factsheet?: AnyDataFormat
+        }
+
+    }
+
+
 - **geometry:** JSON informing the physical geometry data of the vehicle.
 - **yard_uid:** Unique identifier of the yard as registered in the dashboard.
 
 helyOS will respond with the following data:
 
-.. figure:: ./img/agent_check_in_response.png
-    :align: center
-    :width: 600
+.. code-block:: typescript
+    :caption: Check-in data sent by helyOS core to agent. The symbol (?) means optional.
 
-    Agent check in response
+    CheckinResponseMessage {
+        type: "checkin";
 
-Check in response sent by helyOS to the agent.
+        uuid: string;
+
+        body: {  
+                toolId: number;     // agent database id number
+                yard_uid: string;   // yard the agent is checking in.
+                status: string;
+                map: {  uid:string, 
+                        origin:{lat:number, lon:number, alt:number},
+                        map_objects: MapObjects[]
+                      };
+                rbmq_username: string;
+                response_code: string;
+                helyos_public_key: string;
+                ca_certificate: string;   // RabbitMQ server certificate for SSL connection
+                rbmq_password?: string;  // When agent account does not exist in the RabbitMQ server.  
+                password_encrypted? boolean              
+        }
+
+    }
+
 
 - **type** = "check in".
 - **map:** JSON with the map information from yard.
 - **rbmq_username:** RabbitMQ account to be used by this agent.
-- **rbmq_password:** RabbitMQ password for anonymous checke-in.
+- **rbmq_password:** RabbitMQ password, only used for anonymous check-in.
 - **password_encrypted:** If true, the rbmq_password field is encrypted with the agent public key.
 
 Check in using python code:
@@ -248,13 +283,15 @@ The agent reservation is important because:
 
 (i) Mission calculations can require considerable computational power and take several seconds. Therefore, the agent must remain available during this period and not be used by other tasks.
 
-(ii) Some missions require unique tools or devices that may not be present at the required agent. Thus, ensuring the readiness of both the agent and its hardware for the specific assignment is important.
+(ii) In some missions, multiple agents may need to perform sequential assignments. In such cases, one agent must be reserved to wait for the completion of assignments from another agent.
 
-(iii) In the interest of security, heavy agents, even those set to automatable mode, should communicate their upcoming assignment visually or soundly to their surroundings. This feature allows anyone nearby to abort the assignment before it starts if deemed necessary.
+(iii) Some missions require unique tools or devices that may not be present at the required agent. Thus, ensuring the readiness of both the agent and its hardware for the specific assignment is important.
+
+(iv) In the interest of security, heavy agents, even those set to automatable mode, should communicate their upcoming assignment visually or soundly to their surroundings. This feature allows anyone nearby to abort the assignment before it starts if deemed necessary.
 
 
 However, in some scenarios, agents should not be blocked waiting for a mission calculation. 
-Instead, they should either fail the mission if they become unavailable after the calculation is done, or queue the assignment
+Instead, they should either fail the mission if they become suddenly unavailable after the calculation is done, or queue the assignment
 to be executed later.
 For those scenarios, the developer mush uncheck the option `Acknowledge reservation` on the `Register Agent` tab in the dashboard.
 
@@ -268,12 +305,27 @@ This is done via the routing key *agent.{uiid}.assignments*.
 
 If the option `Acknowledge reservation` is checked, helyOS will send an assignment to the agent **only if the agent status is "ready"**.   
 
+.. code-block:: typescript
+    :caption: Assignment object data format. The field **metadata** is automatically generated by helyOS core.
 
-.. figure:: ./img/assignment-data-format.png
-    :align: center
-    :width: 700
+    AssignmentCommandMessage {
+        type: "assignment_execution";
 
-    Assignment object data format
+        uuid: string;
+
+        body: AnyDataFormat;
+
+        metadata: {  
+                    id: number,             // assignment id.
+                    workprocess_id: number, // mission id.
+                    yard_id: number,
+                    status: string,
+                    context?: { dependencies: PreviousAssignments[]}
+        }
+
+    }
+
+    
 
 An easy-to-implement security mechanism is to check the identity of the assignment sender. This is an embedded feature of RabbitMQ. For example, if you want your agent to only execute assignments from helyOS core, you can filter assignments originated from the RabbitMQ account "helyos_core".
 
