@@ -6,9 +6,9 @@
 helyOS Developer's Manual
 =========================
 
-February 22, 2023
+January 22, 2024
 
-(version 1.0)
+(version 2.0)
 
 
 Fraunhofer IVI 

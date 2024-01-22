@@ -1,45 +1,94 @@
 Getting Started 
-===============
-The easiest way to run helyOS locally is by using the docker image. The docker image can run locally or be deployed in a cloud provider.  
-The docker image can be run by using a single line command: 
++++++++++++++++
 
-.. code:: 
+Utilizing the Docker image provides the simplest method for running helyOS. T
+his image can operate locally or be deployed via a cloud provider. 
+For convenience, all components and environment variables should be declared within the docker-compose.yml file
 
-    docker run helyos_core -p 5000:5000 -e  PGUSER=helyos_admin  -e  PGHOST=database.io  -e  … 
+Environment Variables
+---------------------
 
-However, it is more convenient to declare all the components and environment variables in the *docker-compose.yml*.
+Database connection
+===================
 
-The helyOS environment variables are:
+    helyOS saves all the data in a PostgreSQL database. The database can be hosted in the same server as helyOS or in a different server.
 
-- PGUSER: username for postgres.
-- PGPASSWORD: password for postgres.
-- PGDATABASE: database name of your application. A postgres instance can host multiple databases.
 - PGHOST: hostname for postgres.
 - PGPORT: connecting port of the postgres.
-- GQLPORT: server port for user interface
-- ENCRYPT: how is the application-level encryption handled: none | agent-pubkey 
-- RBMQ_HOST: hostname for rabbitMQ server.
-- RBMQ_PORT: connecting port of the rabbitMQ server. (usually 5671 for secure and 5672 for not-secure connections)
-- RBMQ_API_PORT: configuration port of rabbitMQ API. (usually 15671 for secure and 15672 for not-secure connections)     
-- RBMQ_SSL:  Use TLS protocol for encrypted communication to send and receive messages.
-- RBMQ_API_SSL:  Use TLS protocol for encrypted communication to configure RabbitMQ.
-- CREATE_RBMQ_ACCOUNTS: True or False.  helyOS automatically creates the rabbitMQ accounts 
-- RBMQ_ADMIN_USERNAME: rabbitMQ admin username (required if CREATE_RBMQ_ACCOUNTS is True)
-- RBMQ_ADMIN_PASSWORD: rabbitMQ admin password (required if CREATE_RBMQ_ACCOUNTS is True)
+- PGDATABASE: database name of your application. A postgres instance can host multiple databases.
+- PGUSER: username for postgres database.
+- PGPASSWORD: password for postgres.
 
-Advanced parameters (optional):
+GraphQL Interface
+=================
+    The GraphQL server is the main entry point for applications or use interfaces. 
+    GraphQL requests allow to query and mutate the data in the database.
+    It also controls the authentitcation and authorization of apps in helyOS.
+    
 
-- RBMQ_USERNAME: rabbitMQ regular account username (defaults to RBMQ_ADMIN_USERNAME)
-- RBMQ_PASSWORD: rabbitMQ regular account password (defaults to RBMQ_ADMIN_PASSWORD)
-- AGENTS_UL_EXCHANGE: rabbitMQ exchange topic to send data to agents.  (default = xchange_helyos.agents.ul)
-- AGENTS_DL_EXCHANGE: rabbitMQ exchange topic to receive data from agents. (default = xchange_helyos.agents.ul)
-- ANONYMOUS_EXCHANGE: rabbitMQ exchange topic to receive data from not yet registered agents  (default = 'xchange_helyos.agents.anonymous')
-- CHECK_IN_QUEUE: rabbitMQ queue name where helyOS will received the agents check-in data. (default = 'agent_checkin_queue')
-- AGENT_UPDATE_QUEUE: rabbitMQ queue name where helyOS will received the agents update data. (default = 'agent_update_queue')
-- AGENT_STATE_QUEUE: rabbitMQ queue name where helyOS will received the agents update data. (default = 'agent_state_queue') 
+- GQLPORT: server port to query the GraphQL server (defaults to 5000).
+- JWT_SECRET: secret key to encrypt the JWT token.
 
-You don't need to set the variables for the advanced parameters unless you have a unique situation that requires specific settings for RabbitMQ.
 
+RabbitMQ connection
+===================
+    RabbitMQ is the message broker used by helyOS to communicate with the agents. 
+    helyOS core does not only publish and consume messages from the RabbitMQ server, but also creates the necessary accounts, topic exchanges and queues.
+    
+- RABBITMQHOST: hostname for rabbitmq server.
+- RABBITMQPORT: connecting port for AMQP clients.
+- RBMQ_API_PORT:  configuration port for REST API for rabbitmq server. It is used to create the rabbitmq accounts.     
+- RBMQ_SSL= True or False.  If True, the AMQP connection to rabbitmq server is encrypted using TSL.
+- RBMQ_API_SSL= True or False.  If True, the API connection to rabbitmq server encrypted (default = RBMQ_SSL ).
+
+- CREATE_RBMQ_ACCOUNTS: True or False.  helyOS automatically creates the rabbitmq accounts 
+- RBMQ_ADMIN_USERNAME: rabbitmq admin username (required if CREATE_RBMQ_ACCOUNTS is True)
+- RBMQ_ADMIN_PASSWORD: rabbitmq admin password (required if CREATE_RBMQ_ACCOUNTS is True)
+- RBMQ_USERNAME: rabbitmq regular account username (defaults to RBMQ_ADMIN_USERNAME)
+- RBMQ_PASSWORD: rabbitmq regular account password (defaults to RBMQ_ADMIN_PASSWORD)
+
+(Optional settings) 
+
+- AGENTS_UL_EXCHANGE:  exchange topic to send data to agents
+- AGENTS_DL_EXCHANGE:  exchange topic to receive data to agents
+- CHECK_IN_QUEUE: rabbitmq queue name where agents must publish to perform check in.
+- AGENT_UPDATE_QUEUE: rabbitmq queue name where high priority messages from agents are published.
+
+
+helyOS settings
+===============
+
+- ENCRYPT (not implemented yet): none | agent | helyos | helyos-agent. RSA encription betwenn helyos core and agent. 
+  This is an additional encription to the TSL layer used by the RAbbitMQ (default = none)
+- MESSAGE_RATE_LIMIT:  maximum burst of number of messages per second that an agent is allowed publish to helyOS. (default = 150)  
+- MESSAGE_UPDATE_LIMIT: maximum burst of number of messages per second that an agent is allowed publish resulting in a database update. E.g. status update. (default = 20)
+
+
+(Optional settings)
+
+- AGENT_REGISTRATION_TOKEN:  It is used to authenticate the agents that were not previoulsy registered in helyOS.
+- MOCK_SERVICES: True or False.  If True, the services are mocked. It is used only for automated tests purposes. (default = False)
+- TLS_REJECT_UNAUTHORIZED: True or False.  If True, the TLS connection is rejected if the certificate is not valid. (default = True)
+- DEBUG: True or False.  If True, the helyos core log is more verbose. (default = False)
+
+
+Configuration Files
+-------------------
+- **helyos_private.key** and **helyos_public.key**: RSA keys in PEM format. They are used to encrypt and sign helyOS messages sent to agent. They are located in `/etc/helyos/.ssl_keys/`.
+- **ca_certificate.pem**: This is the Certificate Authority (CA) that signed the RabbitMQ server certificate. It is located in `/etc/helyos/.ssl_keys/`.
+- **microservices.yml**: This file contains the initial configuration of the microservices. This data can be modified later in the dashboard. It is located in `/etc/helyos/config/microservices.yml`.
+- **missions.yml**: It serves as a blueprint for all available missions for the agents. It instructs the helyos core on how to orchestrate the microservices for each mission. 
+  This data can be modified later in the dashboard. It is located in `/etc/helyos/config/missions.yml`.
+
+Optional Database Customization 
+===============================
+
+    Any file with the extension `*.sql` in the folder `/etc/helyos/db_initial_data/` will be executed when the database is created. 
+    This can be used, in principle, to pre-populate the database with data, but also to create extra tables, views and functions  that will be automatically available in the GraphQL server.
+    
+
+Example
+=======
 
 Snippet of a *docker-compose.yml*
 
@@ -47,8 +96,10 @@ Snippet of a *docker-compose.yml*
 
     version: '3.5'
     services:
+
         database:
-            image: postgres:10
+            container_name: helyos_database
+            image: postgres:13
             ports:
                 - "5432:5432"
             volumes:
@@ -57,53 +108,48 @@ Snippet of a *docker-compose.yml*
                 - control-tower-net
         
         helyos_core:
-            image: helyos_core:1.2.0
+            image: helyos_core:2
             ports:
                 - 5002:5002  # websocket
                 - 5000:5000  # GraphQL
                 - 8080:8080  # HelyOS Dashboard
+            volumes:
+                - ./my_folder/yard_map_data.sql:/etc/helyos/db_initial_data/yard_map_data.sql
+                - ./my_folder/microservices.yml:/etc/helyos/config/microservices.yml
+                - ./my_folder/missions.yml:/etc/helyos/config/missions.yml
+                - ./my_folder/helyos_private.key:/etc/helyos/.ssl_keys/helyos_private.key
+                - ./my_folder/helyos_public.key:/etc/helyos/.ssl_keys/helyos_public.key
+                - ./my_folder/ca_certificate.pem:/etc/helyos/.ssl_keys/ca_certificate.pem
+  
             environment:
                 # DATABASE
                 - PGUSER=postgres
                 - PGDRIVER=QPSQL
-                - PGPASSWORD=null
-                - PGHOST=database
+                - PGPASSWORD=${PG_PASSWORD}
+                - PGHOST=helyos_database
                 - PGDATABASE=my_application_db
                 - PGPORT=5432
-
+                - 
                 # RABBITMQ
-                - ENCRYPT=none  # none | agent | helyos | helyos-agent
-                - RBMQ_HOST=rabbitmq.server.com
-                - RBMQ_PORT=5672
-                - RBMQ_API_PORT=15672 
-                - RBMQ_SSL=False # True | False (default = False) 
-                - RBMQ_API_SSL=False # True | False (default = RBMQ_SSL )  
+                - RABBITMQHOST=rabbitmq.server.com
+                - RABBITMQPORT=5672
+                - RBMQ_API_PORT=15672  
+                - RBMQ_SSL= False 
+                - RBMQ_API_SSL= False
         
                 # RBMQ ACCOUNTS
-                - CREATE_RBMQ_ACCOUNTS=True # helyOS automatically creates the rabbitmq accounts (default = True)
-                - RBMQ_ADMIN_USERNAME=${HELYOS_RBMQ_USERNAME} # if CREATE_RBMQ_ACCOUNTS is True
-                - RBMQ_ADMIN_PASSWORD=${HELYOS_RBMQ_PASSWORD} # if CREATE_RBMQ_ACCOUNTS is True
-    
-                # AGENT => HELYOS
-                - AGENTS_UL_EXCHANGE=${AGENTS_UL_EXCHANGE}
-
-                # HELYOS => AGENT
-                - AGENTS_DL_EXCHANGE=${AGENTS_DL_EXCHANGE} 
+                - CREATE_RBMQ_ACCOUNTS=True #if helyOS creates the rabbitmq accounts 
+                - RBMQ_ADMIN_USERNAME=helyos_core 
+                - RBMQ_ADMIN_PASSWORD=${RBMQ_PASSWORD} 
     
                 # GRAPHQL 
                 - GQLPORT=5000
-
-            volumes:
-                - ./certificates/ca_certificate.pem:/.ssl_keys/ca_certificate.pem:ro # if RBMQ_API_SSL is True.
+                - JWT_SECRET=${MY_SECRET_KEY}
             networks:
                 - control-tower-net
                 
             depends_on:
                 - database
-
-
-helyOS must access the RabbitMQ server CA certificate to connect RabbitMQ with TLS protocol.
-For this, map or copy the certificate to the path: `/.ssl_keys/ca_certificate.pem`.
 
 To run use the command: ``docker-compose up``.
 

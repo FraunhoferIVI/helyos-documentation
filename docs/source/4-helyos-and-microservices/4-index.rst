@@ -7,3 +7,4 @@ The communication between helyOS and microservices is configured in the helyOS d
     :maxdepth: 1
 
     helyos-request
+    models

@@ -84,11 +84,12 @@ You need to make a small service to convert from the original API to the helyOS 
 Since the helyOS API is extremely simple, this can be done with a few lines of code.
 
 
-What is the difference between helyOS and AutoTruck App?
---------------------------------------------------------
+What is the difference between helyOS and Automation App?
+----------------------------------------------------------
+
 **helyOS** is a software framework used to facilitate the creation of control tower software for different applications like e.g., agriculture, logistics centers and harbors.
 
-| **AutoTruck App** is proprietary software application used as a frontend tool to prototype projects in logistic centers. AutoTruck App uses helyOS as backend.
+| **Automation App** is proprietary software application used as a frontend tool to prototype projects in logistic centers. Automation App uses helyOS as backend.
 
 
 
