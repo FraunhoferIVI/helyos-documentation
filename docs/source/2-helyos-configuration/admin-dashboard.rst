@@ -145,6 +145,8 @@ stored in the client.  For example, if the dummy service was registered in the a
 If it was registered in the *Map* domain, the request data will be directly used to update the map objects.
 
 
+.. _mission-recipes-view:
+
 "Missions Recipes" View
 ---------------------------
 In this view the developer will decompose the previously registered mission into microservice calls. This is done by adding rows to the "Service Matrix" (click Add button). 
@@ -177,7 +179,6 @@ Each row corresponds to a step in the mission process and is used to orchestrate
     :width: 600
 
     **Example 2.** Dependencies between steps: Microservices are called and respond sequentially.
-
 
 
 

@@ -61,7 +61,7 @@ Service Requests: from helyOS to Microservices
         
   Once the mission is triggered, helyOS will dispatch HTTP POST requests to the related microservices;
   one mission can trigger the request of one or many microservices. 
-  The order in which the microservices are called is pre-configured as mission steps using the mission recipe editor in the helyOS dashboard; 
+  The order in which the microservices are called is pre-configured as mission steps using the mission recipe editor in the :ref:`helyOS dashboard <mission-recipes-view>`;
   **each step is associated to one microservice call.** 
 
 
