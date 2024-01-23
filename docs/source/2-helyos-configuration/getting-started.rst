@@ -61,8 +61,8 @@ helyOS settings
 - ENCRYPT (not implemented yet): none | agent | helyos | helyos-agent. RSA encription betwenn helyos core and agent. 
   This is an additional encription to the TSL layer used by the RAbbitMQ (default = none)
 - MESSAGE_RATE_LIMIT:  maximum burst of number of messages per second that an agent is allowed publish to helyOS. (default = 150)  
-- MESSAGE_UPDATE_LIMIT: maximum burst of number of messages per second that an agent is allowed publish resulting in a database update. E.g. status update. (default = 20)
-
+- MESSAGE_UPDATE_LIMIT: maximum burst of number of database updates per second originated from messages publishing. E.g. status update messages. (default = 20)
+- WAIT_AGENT_STATUS_PERIOD:  time in seconds that helyOS waits for an agent to change to the required status before triggering a mission. (default = 20)
 
 (Optional settings)
 
@@ -88,7 +88,7 @@ Optional Database Customization
     
 
 Example
-=======
+-------
 
 Snippet of a *docker-compose.yml*
 

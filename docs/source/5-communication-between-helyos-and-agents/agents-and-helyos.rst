@@ -60,7 +60,10 @@ Here, we bring some examples of connection using Pyhton clients.
 .. code:: python
 
     import pika
-    # connect to helyOS
+    from my_agent import sensor_json_str, properties_json_str, states_json_str, mission_request_json_str
+    from my_callbacks import ia_callback, as_callback
+
+    # connect to RabbitMQ
     hostname ='rabbitmq.server.de'
     username = "134069fc5-fdgs-434b-b87e-f19c5435113"
     UPLINK = "xchange_helyos.agents.ul"; DOWNLINK = "xchange_helyos.agents.dl";
@@ -72,16 +75,16 @@ Here, we bring some examples of connection using Pyhton clients.
     channel = connection.channel()
 
     # publish sensors and position - can be performed up to 1000 Hz
-    channel.basic_publish(UPLINK,"agent.134069fc5-fdgs-434b-b87e-f19c5435113.visualization", sensor_json, sender_validation)
+    channel.basic_publish(UPLINK,"agent.134069fc5-fdgs-434b-b87e-f19c5435113.visualization", sensor_json_str, sender_validation)
 
     # update propeties as geometry and position - can be performed up to 10 Hz
-    channel.basic_publish(UPLINK,"agent.134069fc5-fdgs-434b-b87e-f19c5435113.update", propeties_json, sender_validation)
+    channel.basic_publish(UPLINK,"agent.134069fc5-fdgs-434b-b87e-f19c5435113.update", properties_json_str, sender_validation)
 
     # update agent and assignment status - must be performed immediately when the status change. Up to 2 Hz
-    channel.basic_publish(UPLINK,"agent.134069fc5-fdgs-434b-b87e-f19c5435113.state", agent_assign_states_json ,sender_validation)
+    channel.basic_publish(UPLINK,"agent.134069fc5-fdgs-434b-b87e-f19c5435113.state", states_json_str ,sender_validation)
 
     # request a mission to helyOS
-    channel.basic_publish(UPLINK,"agent.134069fc5-fdgs-434b-b87e-f19c5435113.mission", mission_request_json ,sender_validation)
+    channel.basic_publish(UPLINK,"agent.134069fc5-fdgs-434b-b87e-f19c5435113.mission", mission_request_json_str ,sender_validation)
 
     # receive instant actions
     channel.queue_declare(queue='ia_queue')        
@@ -95,12 +98,73 @@ Here, we bring some examples of connection using Pyhton clients.
 
     channel.start_consuming()
 
+
+Tapping into the agent's data stream
+
+.. code:: python
+
+    import pika, json
+
+    # connect to RabbitMQ
+    hostname ='rabbitmq.server.de'
+    username = "assistant-3432-434b-b87e-ds3245323"
+    UPLINK = "xchange_helyos.agents.ul"
+
+    credentials = pika.PlainCredentials(username, 'secret_passwd')
+    parameters = pika.ConnectionParameters(hostname,  5672,credentials=credentials)
+    connection = pika.BlockingConnection(parameters)
+    channel = connection.channel()
+
+    def parse_any_helyos_agent_message(raw_str):
+        # get message string
+        object = json.loads(raw_str)
+        message_str = object['message']
+        message_signature = object['signature'] 
+        # parse message string
+        message = json.loads(message_str)
+        print(f"message type: {message['type']}")
+        print(f"message uuid: {message['uuid']}")
+        print(f"message body: {message['body']}")
+        print(f"message metadata: {message.get('metadata', None)}")
+
+
+    # Tapping into the agent's data stream - VISUALIZATION
+    def tap_visualization_callback(ch, method, properties, raw_str):
+        print("visualization data received")
+        parse_any_helyos_agent_message(raw_str)
+
+    channel.queue_declare(queue='visualization_queue')
+    channel.queue_bind('visualization_queue', UPLINK, "agent.*.visualization")
+    channel.basic_consume('visualization_queue', auto_ack=True, on_message_callback=tap_visualization_callback)
+
+    # Tapping into the agent's data stream - STATE
+    def tap_state_callback(ch, method, properties, raw_str):
+        print("state data received")
+        parse_any_helyos_agent_message(raw_str)
+
+    channel.queue_declare(queue='state_queue')
+    channel.queue_bind('state_queue', UPLINK, "agent.*.state")
+    channel.basic_consume('state_queue', auto_ack=True, on_message_callback=tap_state_callback)
+
+    # Tapping into the agent's data stream - UPDATE
+    def tap_update_callback(ch, method, properties, raw_str):
+        print("update data received")
+        parse_any_helyos_agent_message(raw_str)
+    
+    channel.queue_declare(queue='update_queue')
+    channel.queue_bind('update_queue', UPLINK, "agent.*.update")
+    channel.basic_consume('update_queue', auto_ack=True, on_message_callback=tap_update_callback)
+
+    channel.start_consuming()
+
+
+
 **MQTT**
 
 .. code:: python
 
     import paho.mqtt.client as mqtt
-    # connect to helyOS
+    # connect to RabbitMQ
     hostname ='rabbitmq.server.de'
     username = "134069fc5-fdgs-434b-b87e-f19c5435113"
 
