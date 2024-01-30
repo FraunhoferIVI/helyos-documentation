@@ -37,7 +37,7 @@ All messages exchanged between helyOS and the agents include the following commo
 
 The additional field **metadata** is present for some messages.
 
-The **body** field will be specific for each message type. The easiest way to communicate to helyOS is to use the agent SDK connector methods: *publish_general_updates*, *pusblish_states* and *publish_sensors*.
+The **body** field will be specific for each message type. The easiest way to communicate to helyOS is to use the agent SDK connector methods: *publish_general_updates*, *publish_states* and *publish_sensors*.
 
 .. figure:: ./img/rabbitmq_topics_explained_2.png
     :align: center
@@ -357,7 +357,7 @@ The agent reservation is important because:
 However, in some scenarios, agents should not be blocked waiting for a mission calculation. 
 Instead, they should either fail the mission if they become suddenly unavailable after the calculation is done, or queue the assignment
 to be executed later.
-For those scenarios, the developer mush uncheck the option `Acknowledge reservation` on the `Register Agent` tab in the dashboard.
+For those scenarios, the developer must uncheck the option `Acknowledge reservation` on the `Register Agent` tab in the dashboard.
 
 
 helyOS Sends Assignment to Agent
