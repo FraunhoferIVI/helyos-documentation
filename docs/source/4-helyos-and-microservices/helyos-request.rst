@@ -237,7 +237,8 @@ Assignments are created by microservices in the *Assignment Planner* domain. A m
 
 
       AssignmentPlan {
-          agent_id: number; // id of the agent that will receive the assignment.
+          agent_id?: number; // id of the agent that will receive the assignment.
+          agent_uuid?: string; // UUID of the agent that will receive the assignment.
           assignment: any; // assignment data, usually defined by the agent vendor.
       }
 
@@ -245,10 +246,13 @@ Assignments are created by microservices in the *Assignment Planner* domain. A m
 
 This microservice response data structure, as defined before, will contains the assignment data in the **results** field.
 
-- **request_id:** Service generated job id.
-- **status:** "failed" | "pending" | "successful".
 - **results:** it is an array of assignments where each assignment is ascribed to a agent id. 
-- **dispatch_order:** When assignment must be executed sequentially, this variable is defined as an array of the element indexes of the results array. The order of the indexes defines the order in which the corresponding assignment will be dispatched to the agent.
+- **dispatch_order:**  When assignments must be executed sequentially, this variable is defined as an array of the element indexes of the results array. The order of the indexes defines the order in which the corresponding assignment will be dispatched to the agent. E.g., [[0], [1,2], [3,4,5]] means that the first assignment will be dispatched first, then the second and third assignments will be dispatched simultaneously, and finally the fourth, fifth and sixth assignments will be dispatched simultaneously.
+
+
+In the AssignmentPlan, the **assignment** field is a user-defined JSON field that contains the data necessary for the agent to execute the assignment.
+The agent that will receive the assignment must be identified either by the **agent_id** or by the **agent_uuid** field. The **agent_id** is the database id of the agent, and the **agent_uuid** is the UUID of the agent. 
+
 
 .. note:: 
   | Note: You cannot send more than one mission at once to a same agent. However, you can SEND SEVERAL ASSIGNMENTS to a same agent! For this, add the assignments into the **results** array with the same **agent_id**.
