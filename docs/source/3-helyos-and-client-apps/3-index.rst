@@ -7,3 +7,4 @@ helyOS core responds to Postgres database events. This means that the creation, 
 
     application-accounts
     communication
+    request-missions

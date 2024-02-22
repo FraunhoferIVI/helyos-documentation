@@ -44,7 +44,7 @@ For example, a GraphQL request to create a mission in plain python would be writ
                                             "status": "draft",
                                             "workProcessTypeName": "driving",
                             "data": "{}",
-                                            "toolIds": [1]		
+                                            "agentIds": [1]		
                                         }
                                 }  
                     }
@@ -63,7 +63,7 @@ Using GraphQL python libraries, this can be written more concisely. By using our
     const createNewMission = () =>  helyosService.workProcess.create({
                                 status: 'draft',            
                                 workProcessTypeName: 'driving',
-                                toolIds: [1],    
+                                agentIds: [1],    
                                 data: {},
                             });
 
@@ -92,7 +92,7 @@ A more advanced example with position tracking:
                                             };
 
     return helyosService.workProcess.create({
-                                toolIds: [1],    
+                                agentIds: [1],    
                                 yardId: 1,       
                                 workProcessTypeName: 'driving',  
                                 data: trucktrixPathPlannerRequest as any, 
@@ -104,8 +104,8 @@ A more advanced example with position tracking:
     function trackVehicle() {
     console.log("==> Tracking agent position and assignment status...\n");
 
-    helyosService.socket.on('new_tool_poses',(updates: any)=>{
-    const agentData = updates.filter(( agent:any) => agent.toolId === 1);
+    helyosService.socket.on('new_agent_poses',(updates: any)=>{
+    const agentData = updates.filter(( agent:any) => agent.agentId === 1);
         console.log(agentData);
     });
 

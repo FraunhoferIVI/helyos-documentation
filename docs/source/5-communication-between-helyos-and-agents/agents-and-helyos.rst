@@ -244,7 +244,7 @@ helyOS will respond with the following data:
         uuid: string;
 
         body: {  
-                toolId: number;     // agent database id number
+                agentId: number;     // agent database id number
                 yard_uid: string;   // yard the agent is checking in.
                 status: string;
                 map: {  uid:string, 

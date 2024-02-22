@@ -52,7 +52,7 @@ Missions Request: from App to helyOS core
 
   The following field is optional:
 
-      - **waitFreeAgent (optional):** Default is true. It defines whether helyOS must wait for all agents listed in toolIds to report their status as “free” before triggering the mission calculations. Set false if you don’t need to reserve the agent and you can pile up assignments in the agent queue. Notice that this may produce assignments calculated with outdated yard context data. 
+      - **waitFreeAgent (optional):** Default is true. It defines whether helyOS must wait for all agents listed in agentIds to report their status as “free” before triggering the mission calculations. Set false if you don’t need to reserve the agent and you can pile up assignments in the agent queue. Notice that this may produce assignments calculated with outdated yard context data. 
       
 
 
