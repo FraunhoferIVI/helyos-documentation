@@ -1,4 +1,8 @@
 # helyOS_developer_manual
+
+**Note: The helyOS_developer_manual was moved to a new [repository](https://github.com/helyOSFramework/helyos-documentation).**
+
+
 Published here: [helyOS Developer Manual](https://helyos-manual.readthedocs.io/en/latest/)
 
 
